@@ -35,10 +35,23 @@ int main() {
     while (fin1 >> colors[i++]);
     fin1.close();
 
-
+    //test main_menu
+    cout << "Menu option: " << main_menu() << endl;
 
 
     return 0;
+}
+
+/**
+ * Displays goat data given a list of goats
+ * @param trip List of goats to display
+ */
+void display_trip(list<Goat>& trip) {
+    int i = 1;
+    for (Goat goat : trip) {
+        cout << "[" << i << "] " << goat.get_name() << " ( " << goat.get_age() << ", " << goat.get_color() << ")" << endl;
+        ++i;
+    }
 }
 
 /**
@@ -58,17 +71,18 @@ int main_menu() {
     
     //validate input
     do {
+        cout << "Choice -->" << endl;
+        cin >> choice;
+
         if (cin.fail()) {
             cout << "Choice must be an integer" << endl;
+            choice = -1;
             cin.clear();
         } else if (choice < 1 || choice > 4) {
             cout << "Choice must be 1, 2, 3, or 4" << endl;
         }
         cin.ignore(IGNORE_STREAM_CHARS, '\n');
-
-        cout << "Choice -->" << endl;
-        cin >> choice;
-    } while(cin.fail() || choice < 1 || choice > 4);
+    } while(choice < 1 || choice > 4);
 
     return choice;
 }
