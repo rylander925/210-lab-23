@@ -13,10 +13,10 @@ using namespace std;
 const int SZ_NAMES = 200, SZ_COLORS = 25, MAX_AGE = 20;
 const int IGNORE_STREAM_CHARS = 100;
 
-int select_goat(list<Goat> trip);
+int select_goat(list<Goat> &trip);
 void delete_goat(list<Goat> &trip);
 void add_goat(list<Goat> &trip, string names[], string colors[]);
-void display_trip(list<Goat> trip);
+void display_trip(list<Goat>& trip);
 int main_menu();
 
 int main() {
@@ -35,11 +35,40 @@ int main() {
     while (fin1 >> colors[i++]);
     fin1.close();
 
-    //test main_menu
-    cout << "Menu option: " << main_menu() << endl;
+    list<Goat> goats;
+    
+    //test add_goat and display
+    for (int i = 0; i < 5; i++) {
+        add_goat(goats, names, colors);
+    } 
 
+    display_trip(goats);
 
     return 0;
+}
+
+/**
+ * 
+ */
+int select_goat(list<Goat> &trip) {
+    int choice;
+    display_trip(trip);
+    //validate input
+    do {
+        cout << "Choice -->" << endl;
+        cin >> choice;
+
+        if (cin.fail()) {
+            cout << "Choice must be an integer" << endl;
+            choice = -1;
+            cin.clear();
+        } else if (choice < 1 || choice > 4) {
+            cout << "Choice must be 1, 2, 3, or 4" << endl;
+        }
+        cin.ignore(IGNORE_STREAM_CHARS, '\n');
+    } while(choice < 1 || choice > 4);
+
+    return choice;
 }
 
 /**
@@ -50,10 +79,12 @@ int main() {
  * @param colors Color is chosen out of this array of colors
  */
 void add_goat(list<Goat> &trip, string names[], string colors[]) {
+    //select random name, color, age
     string name     = names[rand() % SZ_NAMES];
     string color    = colors[rand() % SZ_COLORS];
     int    age      = 1 + rand() % MAX_AGE;
 
+    //add goat to end of list
     trip.push_back(Goat(name, age, color));
 }
 
@@ -64,7 +95,7 @@ void add_goat(list<Goat> &trip, string names[], string colors[]) {
 void display_trip(list<Goat>& trip) {
     int i = 1;
     for (Goat goat : trip) {
-        cout << "[" << i << "] " << goat.get_name() << " ( " << goat.get_age() << ", " << goat.get_color() << ")" << endl;
+        cout << "[" << i << "] " << goat.get_name() << " (" << goat.get_age() << ", " << goat.get_color() << ")" << endl;
         ++i;
     }
 }
