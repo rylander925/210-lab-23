@@ -61,7 +61,6 @@ int main() {
                 display_trip(goats);
                 break;
         }
-
         coutline();
     }
     return 0;
