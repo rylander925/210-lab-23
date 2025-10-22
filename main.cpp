@@ -11,9 +11,9 @@ IDE Used: Visual Studio Code
 using namespace std;
 
 const int SZ_NAMES = 200, SZ_COLORS = 25, MAX_AGE = 20;
-const int IGNORE_STREAM_CHARS = 100;
+const int IGNORE_STREAM_CHARS = 100;                        //Number of characters ignored when using istream.ignore()
 
-enum Choice { ADD = 1, DELETE = 2, DISPLAY = 3, QUIT = 4 };
+enum Choice { ADD = 1, DELETE = 2, DISPLAY = 3, QUIT = 4 }; //Use enum for options for readability
 
 int select_goat(list<Goat> &trip);
 void delete_goat(list<Goat> &trip);
@@ -64,7 +64,6 @@ int main() {
 
         coutline();
     }
-
     return 0;
 }
 
@@ -74,7 +73,7 @@ int main() {
  * @param fill Character to use for line
  */
 void coutline(int size, char fill) {
-    char oldFill = cout.fill(); //save old fill character to reset cout after outputting line
+    char oldFill = cout.fill();                                         //save old fill character to reset cout after outputting line
     cout << setw(size) << setfill(fill) << "" << setfill(oldFill) << endl ;
 }
 
@@ -83,15 +82,15 @@ void coutline(int size, char fill) {
  * @param trip List of goats
  */
 void delete_goat(list<Goat> &trip) {
-    if (trip.empty()) { cout << "No goats to delete." << endl; return; } //exit if there are no goats in the list
+    if (trip.empty()) { cout << "No goats to delete." << endl; return; }//exit if there are no goats in the list
 
     int index;
-    list<Goat>::iterator it = trip.begin();
+    list<Goat>::iterator it = trip.begin();                             //instantiate iterator at beginning to locate goat
 
     cout << "Select a goat to delete from list." << endl;
-    index = select_goat(trip) - 1; //select_trip returns goat number; need to subtract one to obtain a valid index
+    index = select_goat(trip) - 1;                                      //select_trip returns goat number; need to subtract one to obtain a valid index
 
-    for(int i = 0; i < index; i++, it++); //Increment iterator to the chosen goat
+    for(int i = 0; i < index; i++, it++);                               //Increment iterator to the chosen goat
 
     cout << "Removed " << it->get_name() << " from the list." << endl;
     trip.erase(it);
@@ -154,6 +153,7 @@ void display_trip(list<Goat>& trip) {
     coutline();
     cout << "Goats:" << endl;
     int i = 1;
+    //output all goats
     for (Goat goat : trip) {
         cout << "[" << i << "] " << goat.get_name() << " (" << goat.get_age() << ", " << goat.get_color() << ")" << endl;
         ++i;
