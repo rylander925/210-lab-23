@@ -44,29 +44,55 @@ int main() {
 
     display_trip(goats);
 
+    delete_goat(goats);
+
+    display_trip(goats);
+
     return 0;
 }
 
 /**
- * 
+ * Prompts user to select a goat and deletes selected goat
+ * @param trip List of goats
+ */
+void delete_goat(list<Goat> &trip) {
+    int choice;
+    list<Goat>::iterator it = trip.begin();
+
+    cout << "Select a goat to delete from list." << endl;
+    choice = select_goat(trip);
+
+    for(int i = 0; i < choice - 1; i++, it++);
+
+    cout << "Deleting goat " << it->get_name() << endl;
+    trip.erase(it);
+}
+
+/**
+ * Displays goats and queries a goat number. Validates input
+ * @note Returned number starts from 1
+ * @param trip List of goats to select from
+ * @return Selected goat number. Ranges from 1 to the number of goats.
  */
 int select_goat(list<Goat> &trip) {
     int choice;
+    cout << "Goats: " << endl;
     display_trip(trip);
-    //validate input
+
+    //validate input; NOTE: choice starts at 1
     do {
-        cout << "Choice -->" << endl;
+        cout << "Enter a goat number: " << endl;
         cin >> choice;
 
         if (cin.fail()) {
             cout << "Choice must be an integer" << endl;
             choice = -1;
             cin.clear();
-        } else if (choice < 1 || choice > 4) {
-            cout << "Choice must be 1, 2, 3, or 4" << endl;
+        } else if (choice < 1 || choice > trip.size()) {
+            cout << "Choice must be between 1 and " << trip.size() << endl;
         }
         cin.ignore(IGNORE_STREAM_CHARS, '\n');
-    } while(choice < 1 || choice > 4);
+    } while(choice < 1 || choice > trip.size());
 
     return choice;
 }
