@@ -13,11 +13,13 @@ using namespace std;
 const int SZ_NAMES = 200, SZ_COLORS = 25, MAX_AGE = 20;
 const int IGNORE_STREAM_CHARS = 100;
 
+enum Choice { ADD = 1, DELETE = 2, DISPLAY = 3, QUIT = 4 };
+
 int select_goat(list<Goat> &trip);
 void delete_goat(list<Goat> &trip);
 void add_goat(list<Goat> &trip, string names[], string colors[]);
 void display_trip(list<Goat>& trip);
-int main_menu();
+Choice main_menu();
 
 int main() {
     srand(time(0));
@@ -36,17 +38,11 @@ int main() {
     fin1.close();
 
     list<Goat> goats;
+    Choice choice;
     
-    //test add_goat and display
-    for (int i = 0; i < 5; i++) {
-        add_goat(goats, names, colors);
-    } 
-
-    display_trip(goats);
-
-    delete_goat(goats);
-
-    display_trip(goats);
+    while(choice != QUIT) {
+        choice = main_menu();
+    }
 
     return 0;
 }
@@ -56,15 +52,14 @@ int main() {
  * @param trip List of goats
  */
 void delete_goat(list<Goat> &trip) {
-    int choice;
+    int index;
     list<Goat>::iterator it = trip.begin();
 
     cout << "Select a goat to delete from list." << endl;
-    choice = select_goat(trip);
+    index = select_goat(trip) - 1; //select_trip returns goat number; need to subtract one to obtain a valid index
 
-    for(int i = 0; i < choice - 1; i++, it++);
+    for(int i = 0; i < index; i++, it++); //Increment iterator to the chosen goat
 
-    cout << "Deleting goat " << it->get_name() << endl;
     trip.erase(it);
 }
 
@@ -88,7 +83,7 @@ int select_goat(list<Goat> &trip) {
             cout << "Choice must be an integer" << endl;
             choice = -1;
             cin.clear();
-        } else if (choice < 1 || choice > trip.size()) {
+        } else if (choice < 1 || choice > trip.size()) {    //validates input based on number of goats
             cout << "Choice must be between 1 and " << trip.size() << endl;
         }
         cin.ignore(IGNORE_STREAM_CHARS, '\n');
@@ -131,7 +126,7 @@ void display_trip(list<Goat>& trip) {
  * Validates input
  * @return Menu option as an integer: 1=Add, 2=Delete, 3=Output List, 4=Quit
  */
-int main_menu() {
+Choice main_menu() {
     int choice;
 
     //output menu once
@@ -156,6 +151,6 @@ int main_menu() {
         cin.ignore(IGNORE_STREAM_CHARS, '\n');
     } while(choice < 1 || choice > 4);
 
-    return choice;
+    return static_cast<Choice>(choice);
 }
 
