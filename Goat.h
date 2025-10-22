@@ -25,7 +25,19 @@ public:
     void set_color(string c)        { color = c; }
     string get_color() const        { return color; }
 
-    // write overloaded < operator for the std::list
+    // Overloads < operator to sort goats in lexicographic order, prioritizing name > age > color
+    bool operator< (const Goat &otherGoat) const {
+        if (otherGoat.name == name) {
+            if (otherGoat.age == age) {
+                //if names and ages are equal, evaluates based on color
+                return color < otherGoat.color;
+            }
+            //if names are equal, evaluates based on age
+            return age < otherGoat.age;
+        }
+        //first evaluate based on name
+        return name < otherGoat.name;
+    }
 };
 
 #endif
