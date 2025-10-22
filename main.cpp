@@ -20,6 +20,7 @@ void delete_goat(list<Goat> &trip);
 void add_goat(list<Goat> &trip, string names[], string colors[]);
 void display_trip(list<Goat>& trip);
 Choice main_menu();
+void coutline(int size = 30, char fill = '=');
 
 int main() {
     srand(time(0));
@@ -60,9 +61,21 @@ int main() {
                 display_trip(goats);
                 break;
         }
+
+        coutline();
     }
 
     return 0;
+}
+
+/**
+ * Outputs a line of characters
+ * @param size Number of characters in line
+ * @param fill Character to use for line
+ */
+void coutline(int size, char fill) {
+    char oldFill = cout.fill(); //save old fill character to reset cout after outputting line
+    cout << setw(size) << setfill(fill) << "" << setfill(oldFill) << endl ;
 }
 
 /**
@@ -70,6 +83,8 @@ int main() {
  * @param trip List of goats
  */
 void delete_goat(list<Goat> &trip) {
+    if (trip.empty()) { cout << "No goats to delete." << endl; return; } //exit if there are no goats in the list
+
     int index;
     list<Goat>::iterator it = trip.begin();
 
@@ -78,7 +93,7 @@ void delete_goat(list<Goat> &trip) {
 
     for(int i = 0; i < index; i++, it++); //Increment iterator to the chosen goat
 
-    cout << "Deleting " << it->get_name() << "." << endl;
+    cout << "Removed " << it->get_name() << " from the list." << endl;
     trip.erase(it);
 }
 
@@ -90,7 +105,6 @@ void delete_goat(list<Goat> &trip) {
  */
 int select_goat(list<Goat> &trip) {
     int choice;
-    cout << "Goats: " << endl;
     display_trip(trip);
 
     //validate input; NOTE: choice starts at 1
@@ -135,6 +149,9 @@ void add_goat(list<Goat> &trip, string names[], string colors[]) {
  * @param trip List of goats to display
  */
 void display_trip(list<Goat>& trip) {
+    if (trip.empty()) { cout << "No goats to display." << endl; return; }
+
+    coutline();
     cout << "Goats:" << endl;
     int i = 1;
     for (Goat goat : trip) {
@@ -173,6 +190,6 @@ Choice main_menu() {
         cin.ignore(IGNORE_STREAM_CHARS, '\n');
     } while(choice < 1 || choice > 4);
 
-    return static_cast<Choice>(choice);
+    return static_cast<Choice>(choice); //cast integer choice to Choice enum for readability
 }
 
