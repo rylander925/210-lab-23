@@ -15,7 +15,7 @@ const int IGNORE_STREAM_CHARS = 100;
 
 int select_goat(list<Goat> trip);
 void delete_goat(list<Goat> &trip);
-void add_goat(list<Goat> &trip, string [], string []);
+void add_goat(list<Goat> &trip, string names[], string colors[]);
 void display_trip(list<Goat> trip);
 int main_menu();
 
@@ -40,6 +40,21 @@ int main() {
 
 
     return 0;
+}
+
+/**
+ * Adds a new goat to a list of goats.
+ * Goat is given a random name and color out of the given arrays.
+ * @param trip List of goats to add a new goat to
+ * @param names Name is chosen out of this array of names
+ * @param colors Color is chosen out of this array of colors
+ */
+void add_goat(list<Goat> &trip, string names[], string colors[]) {
+    string name     = names[rand() % SZ_NAMES];
+    string color    = colors[rand() % SZ_COLORS];
+    int    age      = 1 + rand() % MAX_AGE;
+
+    trip.push_back(Goat(name, age, color));
 }
 
 /**
