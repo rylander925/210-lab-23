@@ -1,3 +1,8 @@
+/*
+COMSC-210 | Lab 23 | Rylan Der
+IDE Used: Visual Studio Code
+*/
+
 #include <iostream>
 #include <fstream>
 #include <iomanip>
