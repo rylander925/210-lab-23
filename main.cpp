@@ -40,8 +40,26 @@ int main() {
     list<Goat> goats;
     Choice choice;
     
+    //Call menu function until user quits
     while(choice != QUIT) {
         choice = main_menu();
+
+        //Execute respective function based on choice
+        switch(choice) {
+            case(ADD):
+                cout << "Adding goat..." << endl;
+                add_goat(goats, names, colors);
+                break;
+
+            case(DELETE):
+                cout << "Deleting goat..." << endl;
+                delete_goat(goats);
+                break;
+
+            case(DISPLAY):
+                display_trip(goats);
+                break;
+        }
     }
 
     return 0;
@@ -60,6 +78,7 @@ void delete_goat(list<Goat> &trip) {
 
     for(int i = 0; i < index; i++, it++); //Increment iterator to the chosen goat
 
+    cout << "Deleting " << it->get_name() << "." << endl;
     trip.erase(it);
 }
 
@@ -76,7 +95,7 @@ int select_goat(list<Goat> &trip) {
 
     //validate input; NOTE: choice starts at 1
     do {
-        cout << "Enter a goat number: " << endl;
+        cout << "Enter a goat number --> ";
         cin >> choice;
 
         if (cin.fail()) {
@@ -107,6 +126,8 @@ void add_goat(list<Goat> &trip, string names[], string colors[]) {
 
     //add goat to end of list
     trip.push_back(Goat(name, age, color));
+
+    cout << "Added " << trip.back().get_name() << "!" << endl;
 }
 
 /**
@@ -114,6 +135,7 @@ void add_goat(list<Goat> &trip, string names[], string colors[]) {
  * @param trip List of goats to display
  */
 void display_trip(list<Goat>& trip) {
+    cout << "Goats:" << endl;
     int i = 1;
     for (Goat goat : trip) {
         cout << "[" << i << "] " << goat.get_name() << " (" << goat.get_age() << ", " << goat.get_color() << ")" << endl;
@@ -138,7 +160,7 @@ Choice main_menu() {
     
     //validate input
     do {
-        cout << "Choice -->" << endl;
+        cout << "Choice --> ";
         cin >> choice;
 
         if (cin.fail()) {
